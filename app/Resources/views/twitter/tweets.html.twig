@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ username }}
+    <br>
+    <br>
+    Tweets:
+    <ul>
+        {% for tweet in tweets %}
+            <li>{{ tweet.text }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

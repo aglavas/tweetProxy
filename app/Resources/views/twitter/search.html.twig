@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    {{ app.request.get('tweet["text"]') }}
+    <div class="row">
+        <h1>Search</h1>
+    </div>
+
+    <div class="row">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+    {% if tweets is empty %}
+        <div>No results</div>
+    {% else %}
+        <div class="row" id="results">
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th></th>
+                    <th>Screen name</th>
+                    <th>Name</th>
+                    <th>Tweet text</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for tweet in tweets  %}
+                        <tr>
+                            <th scope="row">-</th>
+                            <td><a href="{{ path('username', {'username': tweet['screenName']})}}">{{ tweet['screenName'] }}</a></td>
+                            <td>{{ tweet['name'] }}</td>
+                            <td>{{ tweet['text'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div id="pagination" class="row">
+                <div class="col-xs-12">
+                    {% if maxPages > 1 %}
+                        <ul class="pagination pagination-sm">
+                         {#`«` arrow#}
+                            <li {{ thisPage == 1 ? 'class="disabled"' }}>
+                                <a href="{{ path('search', { tweet: app.request.get('tweet') , page: thisPage-1 < 1 ? 1 : thisPage-1 } )}}">«</a>
+                            </li>
+
+                            {#Render each page number#}
+                            {% for i in 1..maxPages %}
+                                <li {{ thisPage == i ? 'class="active"' }}>
+                                    <a href="{{ path('search', {tweet: app.request.get('tweet') , page: i}) }}">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+
+                             {#`»` arrow#}
+                            <li {{ thisPage == maxPages ? 'class="disabled"' }}>
+                                <a href="{{ path('search', { tweet: app.request.get('tweet') , page: thisPage+1 <= maxPages ? thisPage+1 : thisPage } )}}">»</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
