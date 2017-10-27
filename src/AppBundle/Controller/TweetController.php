@@ -56,7 +56,7 @@ class TweetController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function SearchAction(Request $request)
+    public function searchAction(Request $request)
     {
         $form = $this->createForm(TweetType::class);
         $form->handleRequest($request);
